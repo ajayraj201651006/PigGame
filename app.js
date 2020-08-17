@@ -10,9 +10,9 @@ GAME RULES:
 */
 
 
-var score, roundScore, activePlayer;
+var scores, roundScore, activePlayer;
 
-score = [0, 0];
+scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 
@@ -26,7 +26,7 @@ document.getElementById('current-1').textContent = 0;
 
 document.querySelector('.dice').style.display = 'none';
 
-//parts of events and event handling-->
+//parts of events and event handling(roll dice)-->
 document.querySelector('.btn-roll').addEventListener('click', function() {
 
     // 1. Random Number 
@@ -43,16 +43,45 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         roundScore += dice;
         document.querySelector('#current-'+activePlayer).textContent = roundScore;
     } else {
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        //toggle method add the active class if class is not present and remove the class if class is present--->
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-
-        diceDom.style.display = 'none';
+        //Next Player
+        nextPlayer();
     }
 });
+
+//hold functionality-->
+document.querySelector('.btn-hold').addEventListener('click', function() {
+   //Add Current score to the global
+   scores[activePlayer] += roundScore;
+
+   //update the UI
+   document.getElementById('score-'+activePlayer).textContent = scores[activePlayer];
+
+   //check if player won the game
+   if(scores[activePlayer] >= 20) {
+       document.querySelector('#name-'+activePlayer).textContent = 'Winner!';
+       document.querySelector('.dice').style.display = 'none';
+       document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
+       document.querySelector('.player-'+activePlayer+'-panel').classList.remove('active');
+   } else {
+       //Next Player
+       nextPlayer();
+   }
+});
+
+
+function nextPlayer() {
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+    //toggle method add the active class if class is not present and remove the class if class is present--->
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+
+    document.querySelector('.dice').style.display = 'none';
+}
+
+
+
