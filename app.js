@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, pastRoll;
 
 init();
 
@@ -27,16 +27,24 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         var diceDom = document.querySelector('.dice');
         diceDom.style.display = 'block';
         diceDom.src = 'dice-'+dice+'.png';
-
-        // 3. updates the value of roundScore if the rolled number was not 1
-        if(dice !== 1) {
-            // Add Score
-            roundScore += dice;
-            document.querySelector('#current-'+activePlayer).textContent = roundScore;
-        } else {
-            //Next Player
+        
+        //if 6 comes 2 concurrent times(CODING CHALLANGE)
+        if(dice === 6 && pastRoll === 6) {
+            scores[activePlayer] = 0;
+            document.getElementById('score-'+activePlayer).textContent = scores[activePlayer];
             nextPlayer();
+        } else {
+            // 3. updates the value of roundScore if the rolled number was not 1
+            if(dice !== 1) {
+                // Add Score
+                roundScore += dice;
+                document.querySelector('#current-'+activePlayer).textContent = roundScore;
+            } else {
+                //Next Player
+                nextPlayer();
+            }
         }
+        pastRoll = dice;
     }
 });
 
@@ -77,7 +85,6 @@ function nextPlayer() {
 
     document.querySelector('.dice').style.display = 'none';
 }
-
 
 //Implement New Game functionality
 document.querySelector('.btn-new').addEventListener('click', init);
