@@ -38,4 +38,21 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     diceDom.src = 'dice-'+dice+'.png';
 
     // 3. updates the value of roundScore if the rolled number was not 1
+    if(dice !== 1) {
+        // Add Score
+        roundScore += dice;
+        document.querySelector('#current-'+activePlayer).textContent = roundScore;
+    } else {
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+
+        //toggle method add the active class if class is not present and remove the class if class is present--->
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+
+        diceDom.style.display = 'none';
+    }
 });
