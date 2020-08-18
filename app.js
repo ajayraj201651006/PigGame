@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 
-var scores, roundScore, activePlayer, gamePlaying, pastRoll;
+var scores, roundScore, activePlayer, gamePlaying, pastRoll, winScore;
 
 init();
 
@@ -57,8 +57,18 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
         //update the UI
         document.getElementById('score-'+activePlayer).textContent = scores[activePlayer];
 
+        //sets wining score value(CODING CHALLANGE - 2)
+        winScore = document.getElementById('winScore').value;
+        var wins;
+
+        if(winScore) {
+            wins = winScore;
+        } else {
+            wins = 100;
+        }
+
         //check if player won the game
-        if(scores[activePlayer] >= 20) {
+        if(scores[activePlayer] >= wins) {
             document.querySelector('#name-'+activePlayer).textContent = 'Winner!';
             document.querySelector('.dice').style.display = 'none';
             document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
